@@ -1,0 +1,91 @@
+# compiled output
+/dist
+/node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# env
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.staging
+*.env
+.env.*
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Security and secrets
+secrets/
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+config/secrets.json
+jwt-secrets.txt
+
+# Backup files
+*.backup
+*.bak
+*.tmp
+
+
+# OS
+.DS_Store
+
+# Tests
+/coverage
+/.nyc_output
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Additional security patterns
+*.password
+*secret*
+*credential*
+*token*
+.credentials
+.aws/
+.gcp/
+.azure/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Yarn Integrity file
+.yarn-integrity
