@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { CreateUserDto } from '../users/dto/CreateUser.dto';
 import { LoginDto } from './dto/login.dto';
 import { LocalAuthGuard } from '../../common/guards/local-auth.guards';
+import { JwtAuthGuard } from '../../common/guards/jwt-auth.guards';
 
 @Controller('auth')
 export class AuthController {
@@ -23,4 +24,9 @@ export class AuthController {
         return this.authService.login(req.user)
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Post('logout')
+    logout(@Request() req) {
+        return this.authService.logout(req.user.jti);
+    }
 }

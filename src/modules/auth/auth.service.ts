@@ -2,9 +2,12 @@ import { ConflictException, Injectable, NotFoundException, UnauthorizedException
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { UserDocument } from '../users/schema/User.schema';
 import { CreateUserDto } from '../users/dto/CreateUser.dto';
 import { LoginDto } from './dto/login.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { DeniedToken } from '../../common/token-denylist/token-denylist.schema';
+import { Model } from 'mongoose';
+import { User, UserDocument } from '../users/schema/User.schema';
 
 type payload = {}
 
@@ -12,7 +15,8 @@ type payload = {}
 export class AuthService {
     constructor(
         private usersService: UsersService,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+        @InjectModel(DeniedToken.name) private deniedTokenModel: Model<DeniedToken>
     ) { }
 
     async signUp(createUserDto: CreateUserDto) {
@@ -47,11 +51,19 @@ export class AuthService {
             sub: user._id.toString(), // 'sub' is the standard JWT claim for user ID
             username: user.username,
             email: user.email,
-            displayName: user.displayName || null
         };
-
+        const jti = `${Date.now()}-${Math.random()}`;
         return {
-            access_token: this.jwtService.sign(payload),
+            access_token: this.jwtService.sign(payload, { jwtid: jti }),
         };
+    }
+
+    async logout(jti: string) {
+        const result = await this.deniedTokenModel.create({ jti });
+        if (!result) {
+            return { message: 'Log out failed!' };
+        }
+        // console.log("logout service - jti:", jti)
+        return { message: 'Successfully logged out' };
     }
 }

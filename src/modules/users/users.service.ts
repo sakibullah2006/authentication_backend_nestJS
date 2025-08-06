@@ -75,6 +75,10 @@ export class UsersService {
     async findOneByUsername(username: string): Promise<User | null> {
         return await this.userModel.findOne({ username }).exec()
     }
+
+    async findOneByEmail(email: string): Promise<User | null> {
+        return await this.userModel.findOne({ email }).exec()
+    }
 }
 
 

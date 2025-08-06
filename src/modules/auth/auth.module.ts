@@ -7,6 +7,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { TokenDenylistModule } from '../../common/token-denylist/token-denylist.module';
+import { MailModule } from '../../common/mail/mail.module';
+import { OtpModule } from '../otp/otp.module';
 
 @Module({
   imports: [
@@ -20,11 +23,17 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 
         return {
           secret: secret || 'fallback-secret-for-development-only',
-          signOptions: { expiresIn: expiresIn || '1h' }
+          signOptions: {
+            expiresIn: expiresIn || '1h',
+            jwtid: `${new Date().getTime()}`
+          }
         };
       },
       inject: [ConfigService]
-    })
+    }),
+    TokenDenylistModule,
+    MailModule,
+    OtpModule
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy]
