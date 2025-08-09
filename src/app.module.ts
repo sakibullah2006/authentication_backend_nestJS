@@ -16,7 +16,7 @@ import { TokenDenylistModule } from './common/token-denylist/token-denylist.modu
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGO_URI'),
+        uri: configService.getOrThrow<string>('MONGO_URI'),
       }),
       inject: [ConfigService],
     }),

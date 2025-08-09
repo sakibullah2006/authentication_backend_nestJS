@@ -58,7 +58,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         // console.log('token jti', jti)
 
         return {
-            userId: payload.sub, // Using 'sub' as we updated the JWT payload
+            sub: payload.sub, // Using 'sub' as we updated the JWT payload
             username: payload.username,
             email: payload.email,
             displayName: payload.displayName,

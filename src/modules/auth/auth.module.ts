@@ -10,6 +10,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { TokenDenylistModule } from '../../common/token-denylist/token-denylist.module';
 import { MailModule } from '../../common/mail/mail.module';
 import { OtpModule } from '../otp/otp.module';
+import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 
 @Module({
   imports: [
@@ -36,6 +37,6 @@ import { OtpModule } from '../otp/otp.module';
     OtpModule
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy]
+  providers: [AuthService, LocalStrategy, JwtStrategy, JwtRefreshStrategy]
 })
 export class AuthModule { }

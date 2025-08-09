@@ -9,15 +9,15 @@ import { ConfigService } from '@nestjs/config';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         transport: {
-          host: configService.get<string>('MAIL_HOST'),
-          port: configService.get<number>('MAIL_PORT'),
+          host: configService.getOrThrow<string>('MAIL_HOST'),
+          port: configService.getOrThrow<number>('MAIL_PORT'),
           auth: {
-            user: configService.get<string>('MAIL_USER'),
-            pass: configService.get<string>('MAIL_PASSWORD')
+            user: configService.getOrThrow<string>('MAIL_USER'),
+            pass: configService.getOrThrow<string>('MAIL_PASSWORD')
           }
         },
         defaults: {
-          from: `"${configService.get<string>('MAIL_FROM_NAME', 'No Reply')}" <${configService.get<string>('MAIL_FROM')}>`
+          from: `"${configService.getOrThrow<string>('MAIL_FROM_NAME', 'No Reply')}" <${configService.getOrThrow<string>('MAIL_FROM')}>`
         }
       })
     })
