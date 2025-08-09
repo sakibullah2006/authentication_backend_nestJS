@@ -69,10 +69,6 @@ export class AuthController {
         response.clearCookie('Authentication');
         response.clearCookie('Refresh');
 
-        console.log('Logout controller')
-        console.log('jti', req.user.jti)
-        console.log('user', req.user)
-
         return this.authService.logout(req.user.sub, req.user.jti);
     }
 

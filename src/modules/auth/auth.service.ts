@@ -119,17 +119,15 @@ export class AuthService {
         };
     }
 
-
-
-
     async logout(
         userId: string,
         jti: string,
     ) {
+        console.log('logout service, userid', userId)
         try {
             await Promise.all([
                 await this.deniedTokenModel.create({ jti }),
-                await this.usersService.updateUser({ _id: userId }, { $set: { hashedRefreshToken: undefined } })
+                await this.usersService.updateUser({ _id: userId }, { $unset: { hashedRefreshToken: 1 } })
             ])
         } catch (error) {
             return { message: 'Log out failed!' };
