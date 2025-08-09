@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schema/User.schema';
-import mongoose, { FilterQuery, Model } from 'mongoose';
+import mongoose, { FilterQuery, Model, UpdateQuery } from 'mongoose';
 import { CreateUserDto } from './dto/CreateUser.dto';
 import { UserSettings } from './schema/UserSettings.schema';
 
@@ -70,8 +70,12 @@ export class UsersService {
     }
 
     async getUser(query: FilterQuery<User>): Promise<User | null> {
-        const user = await this.userModel.findOne(query).exec();
+        const user = await this.userModel.findOne(query).populate('settings').exec();
         return user ? user.toObject() : null;
+    }
+
+    async updateUser(query: FilterQuery<User>, data: UpdateQuery<User>) {
+        return await this.userModel.updateOne(query, data).exec()
     }
 
 }
