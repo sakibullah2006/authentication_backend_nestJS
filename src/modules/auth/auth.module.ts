@@ -24,7 +24,7 @@ import { OtpModule } from '../otp/otp.module';
         return {
           secret: secret || 'fallback-secret-for-development-only',
           signOptions: {
-            expiresIn: expiresIn || '1h',
+            expiresIn: expiresIn || '3600',
             jwtid: `${new Date().getTime()}`
           }
         };

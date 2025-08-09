@@ -1,10 +1,13 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
+import { HydratedDocument, SchemaTypes, Types } from "mongoose";
 
 export type UserSettingsDocument = HydratedDocument<UserSettings>
 
 @Schema()
 export class UserSettings {
+    @Prop({ type: SchemaTypes.ObjectId, auto: true })
+    _id: Types.ObjectId
+
     @Prop({ required: false })
     recieveNotifications: boolean
 

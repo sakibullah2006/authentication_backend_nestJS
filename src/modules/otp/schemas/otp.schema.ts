@@ -1,6 +1,6 @@
 // src/modules/otp/entities/otp.entity.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import { Document, Schema as MongooseSchema, SchemaTypes, Types } from 'mongoose';
 import { User } from '../../users/schema/User.schema';
 
 // For better type-safety, we define an enum for OTP types
@@ -11,6 +11,9 @@ export enum OtpType {
 
 @Schema()
 export class Otp {
+    @Prop({ type: SchemaTypes.ObjectId, auto: true })
+    _id: Types.ObjectId
+
     @Prop({ required: true, type: MongooseSchema.Types.ObjectId, ref: 'User' })
     userId: User;
 

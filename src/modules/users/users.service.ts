@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schema/User.schema';
-import mongoose, { Model } from 'mongoose';
+import mongoose, { FilterQuery, Model } from 'mongoose';
 import { CreateUserDto } from './dto/CreateUser.dto';
 import { UserSettings } from './schema/UserSettings.schema';
 
@@ -12,12 +12,9 @@ export class UsersService {
         @InjectModel(UserSettings.name) private userSettingsModel: Model<UserSettings>,
     ) { }
 
-    async getUsers() {
-        try {
-            return await this.userModel.find();
-        } catch (error) {
-            throw new BadRequestException('Error retrieving users');
-        }
+    async getUsers(query: FilterQuery<User>) {
+        const users = await this.userModel.find().exec();
+        return users ? users.map(user => user.toObject()) : null;
     }
 
     async getUserById(id: string) {
@@ -72,13 +69,11 @@ export class UsersService {
         }
     }
 
-    async findOneByUsername(username: string): Promise<User | null> {
-        return await this.userModel.findOne({ username }).exec()
+    async getUser(query: FilterQuery<User>): Promise<User | null> {
+        const user = await this.userModel.findOne(query).exec();
+        return user ? user.toObject() : null;
     }
 
-    async findOneByEmail(email: string): Promise<User | null> {
-        return await this.userModel.findOne({ email }).exec()
-    }
 }
 
 
