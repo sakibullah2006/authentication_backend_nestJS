@@ -62,6 +62,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             username: payload.username,
             email: payload.email,
             displayName: payload.displayName,
+            ...(payload.avatarUrl && payload.avatarUrl !== '' && { avatarUrl: payload.avatarUrl }),
             jti: jti
         };
     }

@@ -55,7 +55,7 @@ export class AuthController {
             maxAge: refreshTokenExpiryMilliseconds
         });
 
-        return { access_token }
+        return { message: 'Login Successful' }
     }
 
     @UseGuards(JwtAuthGuard)
@@ -64,8 +64,6 @@ export class AuthController {
         @Request() req,
         @Res({ passthrough: true }) response: Response
     ) {
-
-
         response.clearCookie('Authentication');
         response.clearCookie('Refresh');
 
@@ -92,17 +90,23 @@ export class AuthController {
             maxAge: accessTokenExpiryMilliseconds
         });
 
-        return { access_token, message: 'Tokens refreshed successfully' }
+        return { message: 'Tokens refreshed successfully' }
     }
 
 
     // TODO: Delete this route before production
     @UseGuards(JwtAuthGuard)
-    @Get('testjwtguard')
-    testJwtProtectedRoute(
+    @Get('me')
+    getProfile(
         @Request() req,
         @Res({ passthrough: true }) response: Response
     ) {
-        if (req.user) return { message: "Entry Granted by route" }
+        return {
+            userId: req.user.sub, // Using 'sub' as we updated the JWT req.user
+            username: req.user.username,
+            email: req.user.email,
+            displayName: req.user.displayName,
+            ...(req.user.avatarUrl && req.user.avatarUrl !== '' && { avatarUrl: req.user.avatarUrl }),
+        }
     }
 }
