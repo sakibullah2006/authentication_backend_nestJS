@@ -69,7 +69,6 @@ jwt-secrets.txt
 *.password
 *secret*
 *credential*
-*token*
 .credentials
 .aws/
 .gcp/
